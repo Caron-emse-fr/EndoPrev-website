@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import com.example.demo.Model.MyAppUserService;
 import lombok.AllArgsConstructor;
@@ -49,13 +51,23 @@ public class SecurityConfig {
                             httpform
                                 .loginPage("/login").permitAll();
                             httpform
+                                .failureHandler(authenticationFailureHandler());
+                            httpform
                                 .defaultSuccessUrl("/index", true);
                         })
 
                     .authorizeHttpRequests(registry -> {
-                        registry.requestMatchers("/req/signup","/css/**","/js/**").permitAll();
+                        registry.requestMatchers("/req/**","/css/**","/js/**").permitAll();
                         registry.anyRequest().authenticated();
                     })
                     .build();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return (request, response, exception) -> {
+            String error = exception instanceof DisabledException ? "unverified" : "invalid";
+            response.sendRedirect("/login?error=" + error);
+        };
     }
 }
