@@ -24,6 +24,7 @@ public class MyAppUserService implements UserDetailsService{
             return User.builder()
                 .username(userObj.getUsername())
                 .password(userObj.getPassword())
+                .disabled(!userObj.isVerified())
                 .build();
         }else{
             throw new UsernameNotFoundException("User not found");

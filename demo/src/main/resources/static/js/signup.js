@@ -40,11 +40,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
             });
 
+            const message = await response.text();
+
             if (!response.ok) {
-                throw new Error("Signup failed with status " + response.status);
+                signupMessage.textContent = message || "Registration failed. Please try again.";
+                return;
             }
 
-            signupMessage.textContent = "Registration successful. You can now log in.";
+            signupMessage.textContent = message || "Registration successful. Check your email for a verification link.";
             signupForm.reset();
         } catch (error) {
             console.error("Signup request failed:", error);
