@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYNTHGRID - Error 404 // Signal Lost</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Audiowide & Rajdhani -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <!-- Tailwind Custom Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            synth: {
+              bg: '#0a0118',
+              card: 'rgba(18, 7, 38, 0.75)',
+              magenta: '#ff007f',
+              cyan: '#00f6ff',
+              purple: '#8a2be2',
+              yellow: '#ffea00',
+              orange: '#ff5e00'
+            }
+          },
+          fontFamily: {
+            audiowide: ['Audiowide', 'cursive'],
+            rajdhani: ['Rajdhani', 'sans-serif'],
+            mono: ['Share Tech Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Global Styling */
+    body {
+      background-color: #0a0118;
+      color: #f1f5f9;
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* CRT Scanline Overlay */
+    .scanlines {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(0, 0, 0, 0.35) 50%,
+        rgba(0, 0, 0, 0.35)
+      );
+      background-size: 100% 4px;
+      z-index: 50;
+      opacity: 0.65;
+    }
+
+    /* Neon Glow Effects */
+    .glow-magenta {
+      text-shadow: 0 0 10px rgba(255, 0, 127, 0.8), 0 0 20px rgba(255, 0, 127, 0.5), 0 0 40px rgba(255, 0, 127, 0.3);
+    }
+
+    .glow-cyan {
+      text-shadow: 0 0 10px rgba(0, 246, 255, 0.8), 0 0 20px rgba(0, 246, 255, 0.5), 0 0 40px rgba(0, 246, 255, 0.3);
+    }
+
+    .box-glow-magenta {
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.4), inset 0 0 10px rgba(255, 0, 127, 0.2);
+    }
+
+    .box-glow-cyan {
+      box-shadow: 0 0 20px rgba(0, 246, 255, 0.4), inset 0 0 10px rgba(0, 246, 255, 0.2);
+    }
+
+    /* 404 Glitch Text Effect */
+    .glitch-404 {
+      position: relative;
+      color: #ffffff;
+      text-shadow: 0 0 20px rgba(255, 0, 127, 0.9), 0 0 40px rgba(0, 246, 255, 0.7);
+    }
+
+    .glitch-404::before,
+    .glitch-404::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0118;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    .glitch-404::before {
+      left: -3px;
+      text-shadow: 3px 0 #00f6ff;
+      animation: glitch-anim-1 2.4s infinite linear alternate-reverse;
+    }
+
+    .glitch-404::after {
+      left: 3px;
+      text-shadow: -3px 0 #ff007f;
+      animation: glitch-anim-2 3.1s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0% { clip: rect(20px, 9999px, 40px, 0); transform: skew(0.3deg); }
+      20% { clip: rect(60px, 9999px, 80px, 0); transform: skew(-0.5deg); }
+      40% { clip: rect(10px, 9999px, 30px, 0); transform: skew(0.8deg); }
+      60% { clip: rect(70px, 9999px, 90px, 0); transform: skew(-0.2deg); }
+      80% { clip: rect(30px, 9999px, 50px, 0); transform: skew(0.4deg); }
+      100% { clip: rect(50px, 9999px, 70px, 0); transform: skew(-0.8deg); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0% { clip: rect(50px, 9999px, 70px, 0); transform: skew(-0.4deg); }
+      25% { clip: rect(15px, 9999px, 35px, 0); transform: skew(0.6deg); }
+      50% { clip: rect(80px, 9999px, 100px, 0); transform: skew(-0.2deg); }
+      75% { clip: rect(25px, 9999px, 45px, 0); transform: skew(0.5deg); }
+      100% { clip: rect(65px, 9999px, 85px, 0); transform: skew(-0.7deg); }
+    }
+
+    /* Retrowave Sliced Sun */
+    .synth-sun-container {
+      position: relative;
+      width: clamp(180px, 24vw, 260px);
+      height: clamp(180px, 24vw, 260px);
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffea00 0%, #ff007f 50%, #7b00ff 100%);
+      box-shadow: 0 0 80px rgba(255, 0, 127, 0.7), 0 0 120px rgba(255, 234, 0, 0.35);
+      overflow: hidden;
+    }
+
+    .sun-stripes {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 45%,
+        #0a0118 45%, #0a0118 47%,
+        transparent 47%, transparent 51%,
+        #0a0118 51%, #0a0118 54%,
+        transparent 54%, transparent 59%,
+        #0a0118 59%, #0a0118 63%,
+        transparent 63%, transparent 69%,
+        #0a0118 69%, #0a0118 74%,
+        transparent 74%, transparent 80%,
+        #0a0118 80%, #0a0118 86%,
+        transparent 86%, transparent 93%,
+        #0a0118 93%, #0a0118 100%
+      );
+    }
+
+    /* 3D Animated Grid Floor */
+    .grid-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200vw;
+      height: 40vh;
+      perspective: 350px;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+      mask-image: linear-gradient(to top, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+    }
+
+    .grid-plane {
+      width: 100%;
+      height: 200%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-image: 
+        linear-gradient(to right, rgba(0, 246, 255, 0.45) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(255, 0, 127, 0.45) 2px, transparent 2px);
+      background-size: 50px 50px;
+      transform: rotateX(75deg);
+      transform-origin: 50% 100%;
+      animation: gridMove 2s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 50px; }
+    }
+
+    /* Glassmorphism Card */
+    .glass-card {
+      background: rgba(18, 7, 38, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 246, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 0, 127, 0.2);
+    }
+
+    /* Twinkling Stars */
+    .stars-bg {
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #ff007f, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #00f6ff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 220px 220px;
+      opacity: 0.4;
+      animation: starsPulse 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes starsPulse {
+      0% { opacity: 0.25; }
+      100% { opacity: 0.55; }
+    }
+
+    /* Radar Sweep Animation */
+    .radar-sweep {
+      background: conic-gradient(from 0deg, rgba(0, 246, 255, 0.4) 0deg, rgba(0, 246, 255, 0) 60deg, transparent 60deg);
+      animation: sweepRotate 2s linear infinite;
+    }
+
+    @keyframes sweepRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body class="relative min-h-screen flex flex-col justify-between select-none">
+
+  <!-- CRT Scanline Effect -->
+  <div class="scanlines"></div>
+
+  <!-- Stars Background -->
+  <div class="absolute inset-0 stars-bg pointer-events-none z-0"></div>
+
+  <!-- Header / Navigation -->
+  <header class="relative z-30 w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+    <!-- Brand Logo -->
+    <a href="index" class="font-audiowide text-2xl md:text-3xl tracking-widest text-white hover:opacity-90 transition">
+      SYNTH<span class="text-synth-cyan glow-cyan">GRID</span>
+    </a>
+
+    <!-- System Diagnostics Badge -->
+    <div class="hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-md border border-synth-magenta/40 bg-synth-card font-mono text-xs text-synth-magenta">
+      <span class="inline-block w-2 h-2 rounded-full bg-synth-magenta animate-ping"></span>
+      STATUS: SYSTEM_ERROR_404
+    </div>
+
+    <!-- Audio Toggle Button -->
+    <button id="synth-btn" onclick="toggleAudioSynth()" class="px-4 py-2 text-xs md:text-sm font-bold tracking-wider rounded-lg border border-synth-cyan text-synth-cyan bg-synth-bg/80 backdrop-blur-md hover:bg-synth-cyan hover:text-synth-bg hover:box-glow-cyan transition-all duration-300 flex items-center gap-2">
+      <span id="synth-icon">🔊</span>
+      <span id="synth-btn-text" class="hidden sm:inline">ALERTE SONORE</span>
+    </button>
+  </header>
+
+  <!-- Main Error 404 Section -->
+  <main class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 py-6">
+    
+    <!-- Central Retrowave Sun & 404 Visual Header -->
+    <div class="relative flex flex-col items-center justify-center my-2">
+      
+      <!-- Sliced Sun Background -->
+      <div class="synth-sun-container absolute -z-10 opacity-80">
+        <div class="sun-stripes"></div>
+      </div>
+
+      <!-- Magenta Glow Halo -->
+      <div class="absolute w-80 h-80 bg-synth-magenta/25 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Glitching Giant '404' -->
+      <h1 class="glitch-404 font-audiowide text-7xl sm:text-9xl md:text-[11rem] font-black tracking-widest uppercase leading-none py-4" data-text="404">
+        404
+      </h1>
+    </div>
+
+    <!-- Terminal Error Glass Box -->
+    <div class="glass-card max-w-2xl w-full rounded-2xl p-6 md:p-8 mt-2 space-y-5 text-center relative overflow-hidden">
+      
+      <!-- Top Neon Status Bar -->
+      <div class="inline-block px-4 py-1.5 rounded-full border border-synth-magenta/80 bg-synth-magenta/10 text-synth-magenta text-xs font-mono font-bold tracking-widest uppercase box-glow-magenta">
+        ✦ SIGNAL LOST IN HYPERSPACE ✦
+      </div>
+
+      <!-- Error Heading & Description -->
+      <div class="space-y-3">
+        <h2 class="font-audiowide text-2xl sm:text-3xl text-white tracking-wider">
+          COORDONNÉES <span class="text-synth-cyan glow-cyan">INTROUVABLES</span>
+        </h2>
+        <p class="text-gray-300 text-base md:text-lg font-medium leading-relaxed max-w-lg mx-auto">
+          Les coordonnées réseau que vous recherchez n'existent pas dans cette ligne temporelle ou ont été effacées de la grille.
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-3 flex flex-col sm:flex-row justify-center items-center gap-4">
+        <!-- Return Home CTA -->
+        <a href="index" onclick="playClickSound()" class="w-full sm:w-auto px-7 py-3.5 rounded-md bg-synth-magenta text-white font-audiowide tracking-wider text-sm box-glow-magenta hover:bg-opacity-90 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2">
+          <span>⬅</span> RETOUR À LA GRILLE
+        </a>
+
+        <!-- Rescan Radar Action -->
+        <button onclick="triggerRadarScan()" class="w-full sm:w-auto px-7 py-3.5 rounded-md border-2 border-synth-cyan text-synth-cyan bg-synth-bg/60 backdrop-blur-sm font-audiowide tracking-wider text-sm hover:bg-synth-cyan hover:text-synth-bg hover:box-glow-cyan active:scale-95 transition-all duration-200 flex items-center justify-center gap-2">
+          <span>📡</span> REBALAYER LA FRÉQUENCE
+        </button>
+      </div>
+
+      <!-- Terminal Status Log -->
+      <div id="terminal-log" class="text-xs font-mono text-gray-400 bg-black/40 rounded-lg p-3 border border-gray-800 text-left flex justify-between items-center">
+        <span id="log-text">&gt; SYSTEM.WARN: Sector 0x404 unreachable. Radar standing by.</span>
+        <span class="text-synth-cyan animate-pulse">● IDLE</span>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Animated 3D Grid Floor -->
+  <div class="grid-wrapper">
+    <div class="grid-plane"></div>
+  </div>
+
+  <!-- Radar Scan Overlay Modal (Hidden by Default) -->
+  <div id="radar-modal" class="fixed inset-0 z-40 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-card max-w-sm w-full rounded-2xl p-6 text-center space-y-5 border-synth-cyan box-glow-cyan relative">
+      
+      <h3 class="font-audiowide text-lg text-synth-cyan tracking-wider">BALAYAGE SECTEUR EN COURS...</h3>
+      
+      <!-- Radar Circle Component -->
+      <div class="relative w-40 h-40 mx-auto rounded-full border-2 border-synth-cyan/60 bg-black/60 flex items-center justify-center overflow-hidden">
+        <!-- Concentric Radar Rings -->
+        <div class="absolute inset-4 rounded-full border border-synth-cyan/30"></div>
+        <div class="absolute inset-10 rounded-full border border-synth-cyan/20"></div>
+        <div class="absolute inset-0 w-full h-full radar-sweep rounded-full"></div>
+        
+        <!-- Radar Crosshairs -->
+        <div class="absolute inset-0 border-t border-synth-cyan/30 top-1/2"></div>
+        <div class="absolute inset-0 border-l border-synth-cyan/30 left-1/2"></div>
+        
+        <!-- Blip Animation -->
+        <div class="absolute top-10 right-10 w-2 h-2 bg-synth-magenta rounded-full animate-ping"></div>
+      </div>
+
+      <p id="radar-status" class="font-mono text-xs text-synth-magenta">
+        &gt; Anlayse de la fréquence 108.4 MHz...
+      </p>
+
+      <button onclick="closeRadar()" class="px-5 py-2 rounded border border-gray-700 text-gray-300 font-mono text-xs hover:border-synth-magenta hover:text-synth-magenta transition">
+        FERMER LE RADAR
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-20 w-full border-t border-gray-800/80 bg-synth-bg/90 backdrop-blur-lg py-5 px-6 mt-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 text-center md:text-left text-xs font-mono text-gray-400">
+      <div>
+        <span class="text-synth-cyan">LATENCY:</span> 0ms &nbsp;|&nbsp; 
+        <span class="text-synth-magenta">TIMELINE:</span> #1984-ALT &nbsp;|&nbsp; 
+        <span class="text-synth-yellow">GRID:</span> OFFLINE
+      </div>
+      <div>
+        SYNTHGRID OS v2.04 — SYSTEM DISCONNECT
+      </div>
+    </div>
+  </footer>
+
+  <!-- Web Audio API Script (Vintage Alarm & Radar Synthesizer) -->
+  <script>
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Play 80s Synth Beep / Click Sound Effect
+    function playClickSound() {
+      initAudio();
+      if (!audioCtx) return;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.12);
+
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.12);
+    }
+
+    // Play Synthwave Error / Alarm Sound
+    function toggleAudioSynth() {
+      initAudio();
+      if (!audioCtx) return;
+
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc1.type = 'sawtooth';
+      osc2.type = 'square';
+
+      // Retro synth alarm frequencies
+      osc1.frequency.setValueAtTime(300, audioCtx.currentTime);
+      osc1.frequency.linearRampToValueAtTime(150, audioCtx.currentTime + 0.3);
+
+      osc2.frequency.setValueAtTime(600, audioCtx.currentTime);
+      osc2.frequency.linearRampToValueAtTime(300, audioCtx.currentTime + 0.3);
+
+      gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc1.start();
+      osc2.start();
+      osc1.stop(audioCtx.currentTime + 0.35);
+      osc2.stop(audioCtx.currentTime + 0.35);
+
+      // Log update
+      const log = document.getElementById('log-text');
+      if (log) log.innerText = '> SYSTEM.ALERT: Audio diagnostic frequency emitted.';
+    }
+
+    // Trigger Radar Scan Animation and Sound
+    function triggerRadarScan() {
+      initAudio();
+      playRadarSweepSound();
+
+      const modal = document.getElementById('radar-modal');
+      const status = document.getElementById('radar-status');
+      const logText = document.getElementById('log-text');
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100');
+
+      status.innerText = '> BALAYAGE DU SECTEUR 0x404...';
+
+      setTimeout(() => {
+        status.innerText = '> AUCUN SIGNAL DÉTECTÉ DANS CETTE LIGNE TEMPORELLE.';
+        playClickSound();
+      }, 2200);
+
+      if (logText) {
+        logText.innerText = '> SYSTEM.SCAN: Sector scan completed. 0 coordinates found.';
+      }
+    }
+
+    // Radar Sweep Audio Synthesizer
+    function playRadarSweepSound() {
+      if (!audioCtx) return;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 1.8);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(500, audioCtx.currentTime);
+      filter.Q.setValueAtTime(5, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.9);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.0);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 2.0);
+    }
+
+    // Close Radar Modal
+    function closeRadar() {
+      playClickSound();
+      const modal = document.getElementById('radar-modal');
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+  </script>
+
+</body>
+</html>

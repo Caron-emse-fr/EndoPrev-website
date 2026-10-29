@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYNTHGRID - Retrowave Experience</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Audiowide (Titres) & Rajdhani (Corps) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Configuration des couleurs Tailwind personnalisées -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            synth: {
+              bg: '#0a0118',
+              card: 'rgba(18, 7, 38, 0.75)',
+              magenta: '#ff007f',
+              cyan: '#00f6ff',
+              purple: '#8a2be2',
+              yellow: '#ffea00',
+              orange: '#ff5e00'
+            }
+          },
+          fontFamily: {
+            audiowide: ['Audiowide', 'cursive'],
+            rajdhani: ['Rajdhani', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Global Styles & Reset */
+    body {
+      background-color: #0a0118;
+      color: #f1f5f9;
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Effet Scanlines Cathodique (Overlay VHS) */
+    .scanlines {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(0, 0, 0, 0.35) 50%,
+        rgba(0, 0, 0, 0.35)
+      );
+      background-size: 100% 4px;
+      z-index: 50;
+      opacity: 0.6;
+    }
+
+    /* Effets Glow Typographie Néon */
+    .glow-magenta {
+      text-shadow: 0 0 10px rgba(255, 0, 127, 0.8), 0 0 20px rgba(255, 0, 127, 0.5), 0 0 40px rgba(255, 0, 127, 0.3);
+    }
+
+    .glow-cyan {
+      text-shadow: 0 0 10px rgba(0, 246, 255, 0.8), 0 0 20px rgba(0, 246, 255, 0.5), 0 0 40px rgba(0, 246, 255, 0.3);
+    }
+
+    .box-glow-magenta {
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.4), inset 0 0 10px rgba(255, 0, 127, 0.2);
+    }
+
+    .box-glow-cyan {
+      box-shadow: 0 0 20px rgba(0, 246, 255, 0.4), inset 0 0 10px rgba(0, 246, 255, 0.2);
+    }
+
+    /* Soleil Synthwave Rétro à Bandes */
+    .synth-sun-container {
+      position: relative;
+      width: clamp(200px, 28vw, 320px);
+      height: clamp(200px, 28vw, 320px);
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffea00 0%, #ff007f 50%, #7b00ff 100%);
+      box-shadow: 0 0 80px rgba(255, 0, 127, 0.65), 0 0 120px rgba(255, 234, 0, 0.3);
+      overflow: hidden;
+    }
+
+    /* Découpe des bandes horizontales du soleil */
+    .sun-stripes {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 45%,
+        #0a0118 45%, #0a0118 47%,
+        transparent 47%, transparent 51%,
+        #0a0118 51%, #0a0118 54%,
+        transparent 54%, transparent 59%,
+        #0a0118 59%, #0a0118 63%,
+        transparent 63%, transparent 69%,
+        #0a0118 69%, #0a0118 74%,
+        transparent 74%, transparent 80%,
+        #0a0118 80%, #0a0118 86%,
+        transparent 86%, transparent 93%,
+        #0a0118 93%, #0a0118 100%
+      );
+    }
+
+    /* Grille 3D Animée en Perspective */
+    .grid-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200vw;
+      height: 42vh;
+      perspective: 350px;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+      mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    }
+
+    .grid-plane {
+      width: 100%;
+      height: 200%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-image: 
+        linear-gradient(to right, rgba(0, 246, 255, 0.4) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(255, 0, 127, 0.4) 2px, transparent 2px);
+      background-size: 50px 50px;
+      transform: rotateX(75deg);
+      transform-origin: 50% 100%;
+      animation: gridMove 2.5s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 50px; }
+    }
+
+    /* Cartes en Glassmorphism Cyberpunk */
+    .glass-card {
+      background: rgba(18, 7, 38, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(0, 246, 255, 0.25);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 0, 127, 0.8);
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(255, 0, 127, 0.25), 0 0 20px rgba(0, 246, 255, 0.2);
+    }
+
+    /* Étoiles Scintillantes */
+    .stars-bg {
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #ff007f, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #00f6ff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      opacity: 0.35;
+    }
+  </style>
+</head>
+
+<body class="relative min-h-screen flex flex-col justify-between select-none">
+
+  <!-- Couche d'Effet CRT / Scanlines -->
+  <div class="scanlines"></div>
+
+  <!-- Fond d'étoiles -->
+  <div class="absolute inset-0 stars-bg pointer-events-none z-0"></div>
+
+  <!-- Barre de Navigation -->
+  <header class="relative z-30 w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+    <!-- Logo Néon -->
+    <a href="#" class="font-audiowide text-2xl md:text-3xl tracking-widest text-white hover:opacity-90 transition">
+      SYNTH<span class="text-synth-cyan glow-cyan">GRID</span>
+    </a>
+
+    <!-- Liens Nav Desktop -->
+    <nav class="hidden md:flex items-center space-x-8 text-lg font-semibold tracking-wider">
+      <a href="#hero" class="text-gray-300 hover:text-synth-cyan hover:glow-cyan transition-all duration-200">ACCUEIL</a>
+      <a href="#features" class="text-gray-300 hover:text-synth-magenta hover:glow-magenta transition-all duration-200">UNIVERS</a>
+      <a href="#about" class="text-gray-300 hover:text-synth-cyan hover:glow-cyan transition-all duration-200">VISION</a>
+      <a href="#contact" class="text-gray-300 hover:text-synth-magenta hover:glow-magenta transition-all duration-200">CONTACT</a>
+    </nav>
+
+    <!-- Bouton Audio Synth (Interactif) -->
+    <button id="synth-btn" onclick="toggleSynthAudio()" class="relative z-30 px-4 py-2 text-sm font-bold tracking-wider rounded-lg border border-synth-cyan text-synth-cyan bg-synth-bg/80 backdrop-blur-md hover:bg-synth-cyan hover:text-synth-bg hover:box-glow-cyan transition-all duration-300 flex items-center gap-2">
+      <span id="synth-icon">🎵</span>
+      <span id="synth-btn-text" class="hidden sm:inline">AMBIANCE SYNTHÉ</span>
+    </button>
+  </header>
+
+  <!-- Section Hero Principale -->
+  <main id="hero" class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 pt-8 pb-16">
+    
+    <!-- Soleil Synthwave Rétro (Arrière-plan Hero) -->
+    <div class="relative mb-6 flex justify-center items-center">
+      <div class="synth-sun-container">
+        <div class="sun-stripes"></div>
+      </div>
+      <!-- Halo Néon Additionnel derrière le soleil -->
+      <div class="absolute w-72 h-72 bg-synth-magenta/20 rounded-full blur-3xl pointer-events-none"></div>
+    </div>
+
+    <!-- Contenu Textuel du Hero -->
+    <div class="max-w-4xl mx-auto space-y-6 relative z-10">
+      
+      <!-- Badge Rétro -->
+      <div class="inline-block px-4 py-1.5 rounded-full border border-synth-magenta/60 bg-synth-magenta/10 text-synth-magenta text-xs md:text-sm font-bold tracking-widest uppercase box-glow-magenta mb-2">
+        ✦ L'AVENIR DU RETROFUTURISME v2.0
+      </div>
+
+      <!-- Titre Principal -->
+      <h1 class="font-audiowide text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-wider text-white uppercase leading-tight">
+        OUTRUN THE <span class="text-synth-magenta glow-magenta">FUTURE</span>
+      </h1>
+
+      <!-- Sous-titre -->
+      <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto font-medium tracking-wide">
+        Plongez au cœur d'une esthétique néon 80s. Une immersion visuelle aux lignes épurées, sonorités analogiques et horizons infinis.
+      </p>
+
+      <!-- Boutons d'Action (CTA) -->
+      <div class="pt-4 flex flex-col sm:flex-row justify-center items-center gap-5">
+        <a href="#features" class="w-full sm:w-auto px-8 py-4 rounded-md bg-synth-magenta text-white font-audiowide tracking-wider text-base box-glow-magenta hover:bg-opacity-90 hover:scale-105 active:scale-95 transition-all duration-200">
+          EXPLORER L'UNIVERS
+        </a>
+        <a href="#about" class="w-full sm:w-auto px-8 py-4 rounded-md border-2 border-synth-cyan text-synth-cyan bg-synth-bg/40 backdrop-blur-sm font-audiowide tracking-wider text-base hover:bg-synth-cyan hover:text-synth-bg hover:box-glow-cyan active:scale-95 transition-all duration-200">
+          DÉCOUVRIR LA VISION
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Grille 3D Perspective Animée -->
+  <div class="grid-wrapper">
+    <div class="grid-plane"></div>
+  </div>
+
+  <!-- Section Cartes / Features (Cyberpunk Glassmorphism) -->
+  <section id="features" class="relative z-20 py-16 px-6 max-w-7xl mx-auto w-full">
+    
+    <div class="text-center mb-12">
+      <h2 class="font-audiowide text-2xl sm:text-4xl text-white tracking-widest uppercase">
+        MODULES <span class="text-synth-cyan glow-cyan">CYBERNÉTIQUES</span>
+      </h2>
+      <div class="h-1 w-24 bg-gradient-to-r from-synth-magenta to-synth-cyan mx-auto mt-3 rounded-full"></div>
+    </div>
+
+    <!-- Grille 3 Cartes -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Carte 1 -->
+      <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -top-12 -right-12 w-24 h-24 bg-synth-magenta/20 rounded-full blur-xl group-hover:bg-synth-magenta/40 transition-all"></div>
+        <div>
+          <div class="w-14 h-14 rounded-xl bg-synth-magenta/20 border border-synth-magenta flex items-center justify-center text-synth-magenta mb-6 box-glow-magenta text-2xl">
+            ⚡
+          </div>
+          <h3 class="font-audiowide text-xl text-white mb-3 tracking-wider">ESTHÉTIQUE NÉON</h3>
+          <p class="text-gray-300 text-base leading-relaxed">
+            Un design inspiré des enseignes au néon des années 80, combinant dégradés magnétiques et typographies rétro-futuristes.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-gray-800 flex items-center justify-between text-xs font-mono text-synth-cyan">
+          <span>SYSTEM_STATUS</span>
+          <span>ONLINE</span>
+        </div>
+      </div>
+
+      <!-- Carte 2 -->
+      <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -top-12 -right-12 w-24 h-24 bg-synth-cyan/20 rounded-full blur-xl group-hover:bg-synth-cyan/40 transition-all"></div>
+        <div>
+          <div class="w-14 h-14 rounded-xl bg-synth-cyan/20 border border-synth-cyan flex items-center justify-center text-synth-cyan mb-6 box-glow-cyan text-2xl">
+            🌐
+          </div>
+          <h3 class="font-audiowide text-xl text-white mb-3 tracking-wider">PERSPECTIVE 3D</h3>
+          <p class="text-gray-300 text-base leading-relaxed">
+            Une grille vectorielle animée en temps réel évoquant les premiers univers virtuels et les célèbres jeux d'arcade vectoriels.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-gray-800 flex items-center justify-between text-xs font-mono text-synth-magenta">
+          <span>GRID_VELOCITY</span>
+          <span>120 BPM</span>
+        </div>
+      </div>
+
+      <!-- Carte 3 -->
+      <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -top-12 -right-12 w-24 h-24 bg-synth-yellow/20 rounded-full blur-xl group-hover:bg-synth-yellow/40 transition-all"></div>
+        <div>
+          <div class="w-14 h-14 rounded-xl bg-synth-yellow/20 border border-synth-yellow flex items-center justify-center text-synth-yellow mb-6 text-2xl">
+            🎛️
+          </div>
+          <h3 class="font-audiowide text-xl text-white mb-3 tracking-wider">SONS SYNTHÉTIQUES</h3>
+          <p class="text-gray-300 text-base leading-relaxed">
+            Harmonie parfaite entre visuels fluorescents et synthétiseurs analogiques pour une expérience rétrofuturiste totale.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-gray-800 flex items-center justify-between text-xs font-mono text-synth-yellow">
+          <span>AUDIO_SYNTH</span>
+          <span>READY</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative z-20 w-full border-t border-gray-800/80 bg-synth-bg/90 backdrop-blur-lg py-8 px-6 mt-12">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+      <div class="font-audiowide text-lg tracking-widest text-white">
+        SYNTH<span class="text-synth-cyan">GRID</span> <span class="text-xs font-sans text-gray-400">© 1984 - 2026</span>
+      </div>
+      <p class="text-sm text-gray-400 font-medium">
+        Conçu pour les passionnés de Synthwave, Vaporwave & Cyberpunk.
+      </p>
+      <div class="flex space-x-6 text-sm font-semibold tracking-wider text-gray-400">
+        <a href="#" class="hover:text-synth-cyan transition">CONFIDENTIALITÉ</a>
+        <a href="#" class="hover:text-synth-magenta transition">CONDITIONS</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Web Audio API Script pour Synthé Interactif sans fichier externe -->
+  <script>
+    let audioCtx = null;
+    let isPlaying = false;
+    let oscillators = [];
+    let mainGain = null;
+
+    function toggleSynthAudio() {
+      const btn = document.getElementById('synth-btn');
+      const btnText = document.getElementById('synth-btn-text');
+      const btnIcon = document.getElementById('synth-icon');
+
+      if (!isPlaying) {
+        // Initialisation de l'AudioContext sur interaction utilisateur
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        // Accord Synthwave Ambiant (A minor 9)
+        const frequencies = [110.00, 164.81, 196.00, 246.94, 329.63]; 
+
+        mainGain = audioCtx.createGain();
+        mainGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+        mainGain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 1.5);
+
+        // Filtre Passe-Bas pour sonorité vintage
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(600, audioCtx.currentTime);
+
+        oscillators = frequencies.map((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          osc.type = idx % 2 === 0 ? 'sawtooth' : 'square';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          
+          // Léger désaccordage (detune) pour effet Chorus analogique
+          osc.detune.setValueAtTime((idx - 2) * 7, audioCtx.currentTime);
+          
+          osc.connect(filter);
+          return osc;
+        });
+
+        filter.connect(mainGain);
+        mainGain.connect(audioCtx.destination);
+
+        oscillators.forEach(osc => osc.start());
+        isPlaying = true;
+
+        btn.classList.add('bg-synth-cyan', 'text-synth-bg', 'box-glow-cyan');
+        btnText.innerText = 'PAUSER LE SYNTHÉ';
+        btnIcon.innerText = '🔊';
+      } else {
+        // Extinction progressive du son
+        if (mainGain) {
+          mainGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+          setTimeout(() => {
+            oscillators.forEach(osc => osc.stop());
+            oscillators = [];
+          }, 600);
+        }
+        isPlaying = false;
+
+        btn.classList.remove('bg-synth-cyan', 'text-synth-bg', 'box-glow-cyan');
+        btnText.innerText = 'AMBIANCE SYNTHÉ';
+        btnIcon.innerText = '🎵';
+      }
+    }
+  </script>
+
+</body>
+</html>
