@@ -3,34 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Se connecter - EndoPrev</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="img/logo.png"/>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script src="/js/login.js"></script>
-    </head>
-<body>
-    <section>
+</head>
+
+<header class="header header-simple">
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <img class="logo-img" src="img/logo.png" alt="EndoPrév"/>
+      <div class="logo-texts">
+        <span class="logo-text"><span class="logo-endo">Endo</span><span class="logo-prev">Prév</span></span>
+        <span class="logo-tagline">— Prévenir l'Endométriose —</span>
+      </div>
+    </a>
+  </div>
+</header>
+
+
+<body class ="login-page">
+    <section class="login-card">
         <form action="/login" method="post">
+            <h2>Connexion</h2>
+            <p class="card-subtitle">Heureux de vous revoir ! Veuillez saisir vos accès.</p>
         <div class="inputbox">
             <ion-icon name="person-outline"></ion-icon>
-            <input name="username" type="text" required>
-            <label>Your Name</label>
+            <input name="username" type="text" required placeholder="Nom d'utilisateur">
         </div>
         <div class="inputbox">
             <ion-icon name="lock-closed-outline"></ion-icon>
-            <input name="password" type="password" required>
-            <label>Password</label>
+            <input name="password" type="password" required placeholder="Mot de passe">
         </div>
         <div  class="Register">
-            <p><a href="/req/forgot-password">Forgot password?</a></p>
+            <p><a class="asso-link" href="forgot-password.html">Mot de passe oublié?</a></p>
         </div>
-        <button type="submit"> Login</button>
+        <button class="hero-btn hero-btn--primary" type="submit"> Se connecter</button>
         <div class ="register">
-            <p>Don't have an account?  <a href="/req/signup">Register Now</a></p>
+            <p>Vous n'avez pas encore de compte?  <a class="asso-link"  href="signup.html">Inscrivez-vous dès maintenant</a></p>
         </div>
         </form>
         <p id="loginMessage" class="form-message" role="alert" aria-live="polite"
            th:text="${loginError}"></p>
     </section>
-    
+</body>
+</html>

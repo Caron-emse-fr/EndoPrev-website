@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("confirmPassword").value;
+        const typeAccount = document.querySelector("input[name='type_account']:checked")?.value;
 
         signupMessage.textContent = "";
 
@@ -36,7 +37,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 body: JSON.stringify({
                     username,
                     email,
-                    password
+                    password,
+                    type_account: typeAccount
                 })
             });
 

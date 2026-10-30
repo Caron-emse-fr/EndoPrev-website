@@ -1,43 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Inscription - EndoPrev</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="img/logo.png"/>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </head>
-<body>
-    <section>
-        <form id="signupForm">
-        <div class="inputbox">
-            <ion-icon name="person-outline"></ion-icon>
-            <input id="username" name="username" type="text" required>
-            <label>Your Name</label>
-        </div>
-        <div class="inputbox">
-            <ion-icon name="mail-outline"></ion-icon>
-            <input id="email" name="email" type="email" required>
-            <label>Your Email</label>
-        </div>
-        <div class="inputbox">
-            <ion-icon name="lock-closed-outline"></ion-icon>
-            <input id="password" name="password" type="password" required>
-            <label>Password</label>
-        </div>
-        <div class="inputbox">
-            <ion-icon name="lock-closed-outline"></ion-icon>
-            <input id="confirmPassword" name="confirmPassword" type="password" required>
-            <label>Confirm Password</label>
-        </div>
-        <button id="submit" type="submit">Sign Up</button>
-        <div class ="register">
-            <p>Already have an account? <a href="/login">Login</a></p>
-        </div>
+
+<body class="register-page">
+<header class="header header-simple">
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <img class="logo-img" src="img/logo.png" alt="EndoPrév"/>
+      <div class="logo-texts">
+        <span class="logo-text"><span class="logo-endo">Endo</span><span class="logo-prev">Prév</span></span>
+        <span class="logo-tagline">— Prévenir l'Endométriose —</span>
+      </div>
+    </a>
+  </div>
+</header>
+
+    <section class="register-card">
+        <form class="register-form" id="signupForm" action="/req/signup" method="post">
+            <h2 class="register-title">Inscription</h2>
+            <p class="register-subtitle">Créez votre compte EndoPrév dès maintenant.</p>
+
+            <div class="register-role-selector">
+                <input class="register-role-input" type="radio" id="patient" name="type_account" value="patiente" checked>
+                <label class="register-role-label" for="patient">🌸 Patient·e</label>
+
+                <input class="register-role-input" type="radio" id="chercheur" name="type_account" value="chercheure">
+                <label class="register-role-label" for="chercheur">🔬 Chercheur·e</label>
+            </div>
+            
+            <div class="register-inputbox">
+                <ion-icon class="register-input-icon" name="person-outline"></ion-icon>
+                <input class="register-input" id="username" name="username" type="text" required placeholder="Nom d'utilisateur">
+            </div>
+            <div class="register-inputbox">
+                <ion-icon class="register-input-icon" name="mail-outline"></ion-icon>
+                <input class="register-input" id="email" name="email" type="email" required placeholder="Adresse e-mail">
+            </div>
+            <div class="register-inputbox">
+                <ion-icon class="register-input-icon" name="lock-closed-outline"></ion-icon>
+                <input class="register-input" id="password" name="password" type="password" required placeholder="Mot de passe">
+            </div>
+            <div class="register-inputbox">
+                <ion-icon class="register-input-icon" name="lock-closed-outline"></ion-icon>
+                <input class="register-input" id="confirmPassword" name="confirmPassword" type="password" required placeholder="Confirmer le mot de passe">
+            </div>
+            <button class="register-submit" id="submit" type="submit">Créer mon compte</button>
+            <div class="register-footer">
+                <p class="register-footer-text">Vous avez déjà un compte ? <a class="register-link" href="login.html">Connectez-vous dès maintenant</a></p>
+            </div>
         </form>
-        <p id="signupMessage" class="form-message" role="alert" aria-live="polite"></p>
+        <p id="signupMessage" class="register-message" role="alert" aria-live="polite"
+           th:text="${signupError}"></p>
     </section>
-    <script src="/js/signup.js"></script>
-    </body>
+</body>
+<script src="script.js"></script>
 </html>

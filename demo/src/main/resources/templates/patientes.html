@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Patientes — EndoPrév</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="icon" type="image/png" href="img/logo.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <img class="logo-img" src="img/logo.png" alt="EndoPrév"/>
+      <div class="logo-texts">
+        <span class="logo-text"><span class="logo-endo">Endo</span><span class="logo-prev">Prév</span></span>
+        <span class="logo-tagline">— Prévenir l'Endométriose —</span>
+      </div>
+    </a>
+    <nav class="main-nav">
+      <a class="main-tab" href="patientes.html" style="text-decoration:none">🌸 Patientes</a>
+      <a class="main-tab" href="chercheures.html" style="text-decoration:none">🔬 Chercheur·es</a>
+      <a class="main-tab" href="associations.html" style="text-decoration:none">🤝 Associations</a>
+      <a class="main-tab" href="temoignages.html" style="text-decoration:none">💬 Témoignages</a>
+      <a class="main-tab" href="qui-sommes-nous.html" style="text-decoration:none">👥 Qui sommes-nous</a>
+    </nav>
+    <div class="header-right">
+      <a class="login-btn" href="login.html" style="text-decoration:none">👤 Connexion</a>
+    </div>
+  </div>
+</header>
+
+<main class="endo-root">
+  <section class="section content-area visible" id="section-patient">
+    <div class="info-banner"><span class="info-banner-icon">🌸</span><div class="info-banner-text"><strong>Bienvenue dans votre espace</strong>Trouvez un spécialiste proche de chez vous, participez à une étude clinique ou consultez nos notices d'information sur l'endométriose.</div></div>
+    <div class="nav-pills">
+      <button class="pill active" onclick="showTab('etudes')">Études cliniques</button>
+      <button class="pill" onclick="showTab('trouver')">Trouver un spécialiste</button>
+      <button class="pill" onclick="showTab('infos')">M'informer</button>
+      <button class="pill" onclick="showTab('faq')">Questions / Réponses</button>
+      <button class="pill" onclick="showTab('glossaire')">Glossaire</button>
+    </div>
+
+    <!-- TAB TROUVER -->
+    <div id="tab-trouver" style="display:none">
+      <p class="section-title">Carte interactive des CHU & spécialistes en France</p>
+      <div class="map-placeholder"><div id="leaflet-map"></div><p class="map-caption" id="chu-info">Cliquez sur un marqueur pour voir le centre spécialisé et prendre contact.</p></div>
+      <p class="section-title">Soignants spécialisés par région</p>
+      <div class="filter-bar">
+        <input class="filter-input" type="text" id="filter-spec-q" placeholder="🔍 Nom, ville, spécialité…" oninput="filterSpec()"/>
+        <select class="filter-select" id="filter-spec-region" onchange="filterSpec()">
+          <option value="">Toutes les régions</option>
+          <option>Île-de-France</option><option>Auvergne-Rhône-Alpes</option><option>PACA</option><option>Grand Est</option><option>Occitanie</option><option>Bretagne</option>
+        </select>
+        <span class="filter-count" id="spec-count">6 spécialistes</span>
+      </div>
+      <div class="contact-grid" id="spec-grid">
+        <div class="contact-item" data-region="Île-de-France" data-q="sophie martin lariboisière paris gynécologue chirurgie">
+          <button class="fav-btn" onclick="toggleFav(this)">🤍</button>
+          <span class="dept-badge">Île-de-France</span><h4>Dr. Sophie Martin</h4>
+          <p>Gynécologue — Hôpital Lariboisière, Paris. Spécialiste endométriose, chirurgie mini-invasive.</p>
+          <span class="contact-link" onclick="openContactModal('Dr. Sophie Martin','Hôpital Lariboisière, Paris')">Contacter →</span>
+        </div>
+        <div class="contact-item" data-region="Auvergne-Rhône-Alpes" data-q="julien dubois lyon chirurgien gynécologue référent">
+          <button class="fav-btn" onclick="toggleFav(this)">🤍</button>
+          <span class="dept-badge">Auvergne-Rhône-Alpes</span><h4>Pr. Julien Dubois</h4>
+          <p>Chirurgien gynécologue — CHU de Lyon. Référent national endométriose profonde.</p>
+          <span class="contact-link" onclick="openContactModal('Pr. Julien Dubois','CHU de Lyon')">Contacter →</span>
+        </div>
+        <div class="contact-item" data-region="PACA" data-q="amina lefèvre marseille gynécologue obstétricienne">
+          <button class="fav-btn" onclick="toggleFav(this)">🤍</button>
+          <span class="dept-badge">PACA</span><h4>Dr. Amina Lefèvre</h4>
+          <p>Gynécologue obstétricienne — AP-HM Marseille. Consultation dédiée endométriose.</p>
+          <span class="contact-link" onclick="openContactModal('Dr. Amina Lefèvre','AP-HM Marseille')">Contacter →</span>
+        </div>
+        <div class="contact-item" data-region="Grand Est" data-q="carole weiss strasbourg gynécologue douleurs pelviennes">
+          <button class="fav-btn" onclick="toggleFav(this)">🤍</button>
+          <span class="dept-badge">Grand Est</span><h4>Dr. Carole Weiss</h4>
+          <p>Gynécologue — CHU de Strasbourg. Prise en charge multidisciplinaire, douleurs pelviennes.</p>
+          <span class="contact-link" onclick="openContactModal('Dr. Carole Weiss','CHU de Strasbourg')">Contacter →</span>
+        </div>
+        <div class="contact-item" data-region="Occitanie" data-q="marie fontaine toulouse gynécologue maladies rares">
+          <button class="fav-btn" onclick="toggleFav(this)">🤍</button>
+          <span class="dept-badge">Occitanie</span><h4>Dr. Marie Fontaine</h4>
+          <p>Gynécologue — CHU de Toulouse. Centre de référence maladies rares gynécologiques.</p>
+          <span class="contact-link" onclick="openContactModal('Dr. Marie Fontaine','CHU de Toulouse')">Contacter →</span>
+        </div>
+        <div class="contact-item" data-region="Bretagne" data-q="lucas moreau rennes chirurgien fertilité pluridisciplinaire">
+          <button class="fav-btn" onclick="toggleFav(this)">🤍</button>
+          <span class="dept-badge">Bretagne</span><h4>Dr. Lucas Moreau</h4>
+          <p>Chirurgien gynécologue — CHU de Rennes. Endométriose et infertilité, équipe pluridisciplinaire.</p>
+          <span class="contact-link" onclick="openContactModal('Dr. Lucas Moreau','CHU de Rennes')">Contacter →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB ÉTUDES -->
+    <div id="tab-etudes">
+      <div class="info-banner"><span class="info-banner-icon">🧬</span><div class="info-banner-text"><strong>Vous pouvez participer à une étude clinique</strong>En participant, vous contribuez à améliorer le diagnostic et les traitements pour toutes les femmes touchées par l'endométriose. Votre participation est volontaire et encadrée par un comité d'éthique.<br><strong>Pourquoi participer ?</strong> Dans le monde, on compte environ 3,9 milliards de femmes, dont près de 1,9 milliard ont leurs règles. Cette proportion souligne l'urgence de développer une prise en charge adaptée à la santé des femmes.</div></div>
+      <div class="prelevinfo"><h4>🩸 À propos des prélèvements de sang menstruel</h4><ul><li>Le sang menstruel contient des cellules endométriales précieuses pour la recherche</li><li>Le prélèvement se fait à domicile avec un kit envoyé par courrier — simple et non invasif</li><li>Vos données sont anonymisées et protégées conformément au RGPD</li><li>Un dédommagement financier peut être prévu selon les études</li><li>Vous pouvez retirer votre consentement à tout moment</li></ul></div>
+      <p class="section-title">Études en cours — prélèvements & participation</p>
+      <div class="filter-bar">
+        <input class="filter-input" type="text" id="filter-et-q" placeholder="🔍 Rechercher une étude…" oninput="filterEtudes()"/>
+        <select class="filter-select" id="filter-et-type" onchange="filterEtudes()">
+          <option value="">Tous les types</option>
+          <option>Prélèvement sanguin</option><option>Prélèvement de sang menstruel</option><option>Questionnaire en ligne</option><option>IRM / imagerie</option><option>Consultation clinique</option><option>Biopsie</option><option>Autre</option>
+        </select>
+        <select class="filter-select" id="filter-et-statut" onchange="filterEtudes()">
+          <option value="">Tous les statuts</option>
+          <option>Recrutement ouvert</option><option>Places limitées</option><option>Inscription à une liste d'attente</option>
+        </select>
+        <select class="filter-select" id="filter-et-profil" onchange="filterEtudes()">
+          <option value="">Tous les profils</option>
+          <option value="confirmé">Diagnostic confirmé</option>
+          <option value="tous">Sans diagnostic requis</option>
+        </select>
+        <select class="filter-select" id="filter-et-age" onchange="filterEtudes()">
+          <option value="">Toutes les tranches d'âge</option>
+          <option value="18">18–25 ans</option>
+          <option value="26">26–35 ans</option>
+          <option value="36">36–45 ans</option>
+          <option value="46">46+ ans</option>
+        </select>
+        <span class="filter-count" id="et-count">4 études</span>
+      </div>
+      <div id="etudes-list">
+        <div class="study-card" data-type="Prélèvement sanguin" data-statut="Recrutement ouvert" data-q="endo-bio biomarqueurs sanguins lyon" data-profil="confirmé" data-age-min="18" data-age-max="45">
+          <div class="study-card-body"><span class="study-badge green">Recrutement ouvert</span><div class="study-info"><h4>ENDO-BIO — Biomarqueurs sanguins</h4><p>Prélèvement sanguin unique · CHU de Lyon · 18–45 ans · Toute France · 💶 Dédommagement : 40€</p></div><div class="study-progress"><div class="progress-track"><div class="progress-fill" style="width:64%"></div></div><span class="progress-label">32 / 50 participantes recrutées</span></div></div>
+          <div class="study-actions"><button class="study-fav" onclick="toggleFavStudy(this)">🤍</button><button class="study-btn" onclick="openPartModal('ENDO-BIO — Biomarqueurs sanguins','CHU de Lyon','40€')">Participer ↗</button></div>
+        </div>
+        <div class="study-card" data-type="IRM / imagerie" data-statut="Places limitées" data-q="diag-endo imagerie irm paris lariboisière" data-profil="confirmé" data-age-min="18" data-age-max="99">
+          <div class="study-card-body"><span class="study-badge amber">Places limitées</span><div class="study-info"><h4>DIAG-ENDO — Imagerie IRM</h4><p>Protocole IRM avancé · Hôpital Lariboisière Paris · Sans douleur · 💶 Dédommagement : 60€</p></div><div class="study-progress"><div class="progress-track"><div class="progress-fill" style="width:88%"></div></div><span class="progress-label">22 / 25 participantes recrutées</span></div></div>
+          <div class="study-actions"><button class="study-fav" onclick="toggleFavStudy(this)">🤍</button><button class="study-btn" onclick="openPartModal('DIAG-ENDO — Imagerie IRM','Hôpital Lariboisière, Paris','60€')">Participer ↗</button></div>
+        </div>
+        <div class="study-card" data-type="Questionnaire en ligne" data-statut="Recrutement ouvert" data-q="quali-vie qualité vie questionnaire en ligne" data-profil="tous" data-age-min="18" data-age-max="99">
+          <div class="study-card-body"><span class="study-badge">Questionnaire</span><div class="study-info"><h4>QUALI-VIE — Qualité de vie</h4><p>Questionnaire en ligne · 20 minutes · Ouvert à toutes · 💶 Dédommagement : bon cadeau 15€</p></div><div class="study-progress"><div class="progress-track"><div class="progress-fill" style="width:40%"></div></div><span class="progress-label">80 / 200 participantes recrutées</span></div></div>
+          <div class="study-actions"><button class="study-fav" onclick="toggleFavStudy(this)">🤍</button><button class="study-btn" onclick="openPartModal('QUALI-VIE — Qualité de vie','En ligne','15€ (bon cadeau)')">Participer ↗</button></div>
+        </div>
+        <div class="study-card" data-type="Prélèvement de sang menstruel" data-statut="Recrutement ouvert" data-q="menstruo sang menstruel kit domicile" data-profil="tous" data-age-min="18" data-age-max="50">
+          <div class="study-card-body"><span class="study-badge green">Recrutement ouvert</span><div class="study-info"><h4>MENSTRUO — Sang menstruel</h4><p>Kit envoyé à domicile · Prélèvement menstruel · 18–50 ans · 💶 Dédommagement : 50€</p></div><div class="study-progress"><div class="progress-track"><div class="progress-fill" style="width:22%"></div></div><span class="progress-label">11 / 50 participantes recrutées</span></div></div>
+          <div class="study-actions"><button class="study-fav" onclick="toggleFavStudy(this)">🤍</button><button class="study-btn" onclick="openPartModal('MENSTRUO — Sang menstruel','À domicile (kit envoyé)','50€')">Participer ↗</button></div>
+        </div>
+      </div>
+      <div id="et-empty" class="empty-state" style="display:none"><span class="empty-icon">🔍</span>Aucune étude ne correspond à vos filtres.</div>
+    </div>
+
+    <!-- TAB INFOS -->
+    <div id="tab-infos" style="display:none">
+      <p class="section-title">Notices préventives & ressources</p>
+      <div class="cards-grid">
+        <div class="card"><div class="card-icon pink">🌸</div><h3>Qu'est-ce que l'endométriose ?</h3><p>Maladie chronique touchant 1 femme sur 10. Tissu semblable à l'endomètre se développe hors de l'utérus.</p><div class="card-action" onclick="openInfoModal('endometriose')">En savoir plus →</div></div>
+        <div class="card"><div class="card-icon teal">🔍</div><h3>Reconnaître les symptômes</h3><p>Douleurs pelviennes, règles douloureuses, fatigue chronique… apprenez à identifier les signes.</p><div class="card-action" onclick="openInfoModal('symptomes')">En savoir plus →</div></div>
+        <div class="card"><div class="card-icon amber">🗺️</div><h3>Le parcours de soin</h3><p>De la consultation gynéco au diagnostic, en passant par l'imagerie et la chirurgie : votre feuille de route.</p><div class="card-action" onclick="openInfoModal('parcours')">Voir le parcours →</div></div>
+        <div class="card"><div class="card-icon blue">💊</div><h3>Traitements disponibles</h3><p>Hormonaux, chirurgicaux, alternatifs… comprendre les options thérapeutiques actuelles.</p><div class="card-action" onclick="openInfoModal('traitements')">En savoir plus →</div></div>
+        <div class="card"><div class="card-icon pink">🤰</div><h3>Endométriose & fertilité</h3><p>Impact sur la conception, PMA, suivi de grossesse : toutes les informations pour les projets de maternité.</p><div class="card-action" onclick="openInfoModal('fertilite')">En savoir plus →</div></div>
+        <div class="card"><div class="card-icon teal">☀️</div><h3>Vivre au quotidien</h3><p>Alimentation, gestion de la douleur, activité physique, soutien psychologique.</p><div class="card-action" onclick="openInfoModal('quotidien')">Voir les conseils →</div></div>
+        <div class="card"><div class="card-icon amber">⚖️</div><h3>Vos droits & démarches</h3><p>ALD, arrêt maladie, RQTH, reconnaissance en affection longue durée : faites valoir vos droits.</p><div class="card-action" onclick="openInfoModal('droits')">En savoir plus →</div></div>
+        <div class="card"><div class="card-icon blue">🩸</div><h3>Adénomyose</h3><p>Souvent confondue avec l'endométriose, l'adénomyose touche le muscle utérin. Comprendre les différences.</p><div class="card-action" onclick="openInfoModal('adenomyose')">En savoir plus →</div></div>
+      </div>
+    </div>
+
+    <!-- TAB GLOSSAIRE -->
+    <div id="tab-glossaire" style="display:none">
+      <p class="section-title">Glossaire médical</p>
+      <div class="glossaire-grid">
+        <div class="glossaire-term"><div class="glossaire-mot">Endométriose</div><div class="glossaire-def">Tissu semblable à l'endomètre qui se développe en dehors de l'utérus, provoquant des inflammations, douleurs et adhérences.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Adénomyose</div><div class="glossaire-def">Forme d'endométriose où le tissu endométrial envahit le muscle utérin (myomètre). Souvent associée à des règles abondantes et douloureuses.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Endomètre</div><div class="glossaire-def">Muqueuse interne de l'utérus qui s'épaissit à chaque cycle puis est éliminée lors des règles si aucune grossesse ne survient.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Laparoscopie</div><div class="glossaire-def">Intervention chirurgicale mini-invasive réalisée sous anesthésie générale. C'est la seule méthode permettant de diagnostiquer et traiter l'endométriose avec certitude.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Endométriome</div><div class="glossaire-def">Kyste ovarien formé par du tissu endométriosique. Aussi appelé "kyste chocolat" en raison de son contenu brun foncé.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Dysménorrhée</div><div class="glossaire-def">Douleurs menstruelles intenses, souvent invalidantes. C'est l'un des premiers signes d'alerte de l'endométriose.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Dyspareunie</div><div class="glossaire-def">Douleurs lors des rapports sexuels. Fréquentes en cas d'endométriose profonde, notamment les formes touchant le cul-de-sac de Douglas.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Stades I à IV</div><div class="glossaire-def">Classification de l'endométriose selon sa sévérité : I (minime), II (légère), III (modérée), IV (sévère). Le stade n'est pas toujours corrélé à l'intensité des douleurs.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Progestatifs</div><div class="glossaire-def">Hormones utilisées en traitement médical pour freiner la progression de l'endométriose en bloquant les règles (pilule, DIU, injections).</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">PMA</div><div class="glossaire-def">Procréation Médicalement Assistée. Ensemble des techniques (FIV, insémination artificielle…) pour aider à concevoir lorsque l'endométriose affecte la fertilité.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">ALD</div><div class="glossaire-def">Affection Longue Durée. Depuis 2022, les formes sévères d'endométriose peuvent être reconnues en ALD 31, permettant une prise en charge à 100% par l'Assurance Maladie.</div></div>
+        <div class="glossaire-term"><div class="glossaire-mot">Biomarqueur</div><div class="glossaire-def">Indicateur biologique mesurable (dans le sang, les urines…) utilisé dans la recherche pour détecter ou suivre l'évolution de l'endométriose.</div></div>
+      </div>
+    </div>
+
+    <!-- TAB FAQ -->
+    <div id="tab-faq" style="display:none">
+      <p class="section-title">Questions fréquentes</p>
+      <div class="faq-list">
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Combien de temps faut-il pour obtenir un diagnostic ? <span class="faq-arrow">▼</span></div><div class="faq-a">En France, le délai moyen de diagnostic est de <strong>7 ans</strong> après les premiers symptômes. C'est pourquoi il est essentiel de consulter un spécialiste dès l'apparition de douleurs pelviennes persistantes. La plateforme Endo vous aide à trouver rapidement un spécialiste près de chez vous.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Est-ce que l'endométriose se guérit ? <span class="faq-arrow">▼</span></div><div class="faq-a">Il n'existe pas de guérison définitive à ce jour, mais les traitements permettent de contrôler les symptômes et d'améliorer la qualité de vie. La recherche avance, notamment grâce aux études sur les biomarqueurs sanguins et menstruels.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Comment participer à une étude clinique ? <span class="faq-arrow">▼</span></div><div class="faq-a">Rendez-vous dans l'onglet <strong>"Études cliniques"</strong>. Cliquez sur "Participer" et remplissez le formulaire d'inscription. Votre participation est <strong>volontaire</strong>, encadrée par un comité d'éthique, et vous pouvez vous désister à tout moment.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Qu'est-ce qu'un prélèvement de sang menstruel ? <span class="faq-arrow">▼</span></div><div class="faq-a">Le sang menstruel contient des <strong>cellules endométriales</strong> permettant d'étudier la maladie sans chirurgie invasive. Avec un simple kit envoyé à domicile, vous contribuez à des découvertes scientifiques majeures. Les échantillons sont anonymisés.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Quel médecin consulter en premier ? <span class="faq-arrow">▼</span></div><div class="faq-a">Votre médecin généraliste ou gynécologue est le premier interlocuteur. En cas de symptômes sévères, demandez une orientation vers un <strong>Centre National de Référence Endométriose (CNGE)</strong>.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">L'endométriose est-elle reconnue comme maladie longue durée ? <span class="faq-arrow">▼</span></div><div class="faq-a">Oui, depuis 2022 les formes sévères peuvent être reconnues en <strong>ALD 31</strong>, permettant une prise en charge à 100% par l'Assurance Maladie.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">L'endométriose peut-elle affecter ma fertilité ? <span class="faq-arrow">▼</span></div><div class="faq-a">L'endométriose peut rendre la conception plus difficile, mais de nombreuses femmes ont des grossesses sans difficulté. Des solutions existent : stimulation ovarienne, FIV, suivi rapproché.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Mes données sont-elles protégées si je participe à une étude ? <span class="faq-arrow">▼</span></div><div class="faq-a">Oui, toutes les données collectées sont <strong>anonymisées et protégées</strong> conformément au RGPD. Chaque étude est soumise à l'approbation d'un comité d'éthique indépendant.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Quelle est la différence entre endométriose et adénomyose ? <span class="faq-arrow">▼</span></div><div class="faq-a">L'<strong>endométriose</strong> = tissu endométrial <em>en dehors</em> de l'utérus. L'<strong>adénomyose</strong> = tissu endométrial <em>à l'intérieur du muscle utérin</em>. Ces deux maladies peuvent coexister.</div></div>
+        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Existe-t-il un soutien psychologique spécialisé ? <span class="faq-arrow">▼</span></div><div class="faq-a">Oui. Des psychologues spécialisés dans les maladies chroniques, des groupes de parole organisés par <strong>EndoFrance</strong> et <strong>Endomind</strong>, et des plateformes de soutien en ligne existent.</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MODAL CONTACT SPÉCIALISTE -->
+<div class="modal-overlay" id="modal-contact" style="display:none" onclick="closeIf(event,'modal-contact')">
+  <div class="modal">
+    <div class="modal-header"><div><div class="modal-title" id="mc-title">Contacter un spécialiste</div><div class="modal-subtitle" id="mc-sub"></div></div><button class="modal-close" onclick="closeModal('modal-contact')">✕</button></div>
+    <div class="form-row"><label class="form-label">Votre prénom & nom *</label><input class="form-input" id="mc-nom" type="text" placeholder="Marie Dupont"/></div>
+    <div class="form-row"><label class="form-label">Votre email *</label><input class="form-input" id="mc-email" type="email" placeholder="marie.dupont@email.fr"/></div>
+    <div class="form-row"><label class="form-label">Votre téléphone</label><input class="form-input" id="mc-tel" type="tel" placeholder="06 XX XX XX XX"/></div>
+    <div class="form-row"><label class="form-label">Motif de la demande</label><select class="form-select" id="mc-motif"><option>Première consultation</option><option>Avis spécialisé / second avis</option><option>Suivi post-opératoire</option><option>Douleurs chroniques</option><option>Projet de grossesse</option><option>Autre</option></select></div>
+    <div class="form-row"><label class="form-label">Message (facultatif)</label><textarea class="form-textarea" id="mc-msg" style="min-height:70px" placeholder="Décrivez brièvement votre situation…"></textarea></div>
+    <button class="submit-btn" onclick="envoyerContact()" style="width:100%">✉️ Envoyer la demande</button>
+  </div>
+</div>
+
+<!-- MODAL PARTICIPER -->
+<div class="modal-overlay" id="modal-part" style="display:none" onclick="closeIf(event,'modal-part')">
+  <div class="modal">
+    <div class="modal-header"><div><div class="modal-title" id="mp-title">Participer à une étude</div><div class="modal-subtitle" id="mp-sub"></div></div><button class="modal-close" onclick="closeModal('modal-part')">✕</button></div>
+    <div class="info-banner" style="margin-bottom:1rem"><span class="info-banner-icon">💶</span><div class="info-banner-text"><strong>Dédommagement financier</strong><span id="mp-dedommagement"></span></div></div>
+    <div class="form-row"><label class="form-label">Votre prénom & nom *</label><input class="form-input" id="mp-nom" type="text" placeholder="Marie Dupont"/></div>
+    <div class="form-row"><label class="form-label">Votre email *</label><input class="form-input" id="mp-email" type="email" placeholder="marie@email.fr"/></div>
+    <div class="form-row"><label class="form-label">Votre date de naissance *</label><input class="form-input" id="mp-ddn" type="date"/></div>
+    <div class="form-row"><label class="form-label">Diagnostic confirmé d'endométriose ? *</label><select class="form-select" id="mp-diag"><option>Oui, diagnostic confirmé</option><option>Diagnostic en cours</option><option>Non diagnostiquée mais symptomatique</option><option>Non</option></select></div>
+    <div class="form-row"><label class="form-label">Votre ville / département</label><input class="form-input" id="mp-ville" type="text" placeholder="Ex: Lyon, 69"/></div>
+    <p style="font-size:12px;color:var(--text-muted);line-height:1.55;margin-bottom:12px">🔒 Données anonymisées et protégées (RGPD). Participation volontaire, retrait possible à tout moment.</p>
+    <button class="submit-btn" onclick="envoyerPart()" style="width:100%">✅ Envoyer ma candidature</button>
+  </div>
+</div>
+
+<!-- MODAL INFO -->
+<div class="modal-overlay" id="modal-info" style="display:none" onclick="closeIf(event,'modal-info')">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header"><div class="modal-title" id="info-title"></div><button class="modal-close" onclick="closeModal('modal-info')">✕</button></div>
+    <div id="info-body" style="font-size:13.5px;color:var(--text-secondary);line-height:1.7"></div>
+  </div>
+</div>
+
+<!-- MODAL ADMIN -->
+<div class="modal-overlay" id="modal-admin" style="display:none" onclick="closeIf(event,'modal-admin')">
+  <div class="modal modal-wide">
+    <div class="modal-header"><div><div class="modal-title">⚙️ Administration Endo</div><div class="modal-subtitle">Gérez les annonces, associations et candidatures</div></div><button class="modal-close" onclick="closeModal('modal-admin')">✕</button></div>
+    <div id="admin-login">
+      <div class="admin-section">
+        <div class="admin-login-wrap">
+          <p style="font-size:13px;color:#ffb3c6;text-align:center">Accès réservé à l'équipe Endo.</p>
+          <input type="password" id="admin-pwd" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkPwd()"/>
+          <button class="admin-login-btn" onclick="checkPwd()">Accéder →</button>
+          <p class="admin-error" id="admin-err">Mot de passe incorrect.</p>
+        </div>
+      </div>
+    </div>
+    <div id="admin-dash" style="display:none">
+      <div class="admin-section">
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="showAdminTab('ann')">📢 Annonces (<span id="adm-ann-n">0</span>)</button>
+          <button class="admin-tab" onclick="showAdminTab('asso')">🤝 Associations (<span id="adm-asso-n">0</span>)</button>
+          <button class="admin-tab" onclick="showAdminTab('cand')">👥 Candidatures (<span id="adm-cand-n">0</span>)</button>
+        </div>
+        <div id="adm-ann"><h3>📢 Annonces publiées via le formulaire</h3><div id="adm-ann-body"></div></div>
+        <div id="adm-asso" style="display:none"><h3>🤝 Demandes d'associations</h3><div id="adm-asso-body"></div></div>
+        <div id="adm-cand" style="display:none"><h3>👥 Candidatures aux études</h3><div id="adm-cand-body"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast hidden" id="toast"><span id="toast-msg"></span></div>
+
+<script src="script.js"></script>
+</body>
+</html>

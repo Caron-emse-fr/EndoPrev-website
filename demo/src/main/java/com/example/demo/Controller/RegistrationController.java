@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import com.example.demo.Service.EmailService;
 import com.example.demo.Utils.JwtTokenUtil;
+import java.util.Set;
 
 @RestController 
 public class RegistrationController {
@@ -25,8 +26,16 @@ public class RegistrationController {
     @Autowired
     private EmailService emailService;
     
-    @PostMapping(value="/req/signup", consumes="application/json")
+    @PostMapping(value={"/req/signup", "/api/signup"}, consumes="application/json")
     public ResponseEntity<String> createUser(@RequestBody MyAppUser user){
+        if (user.getEmail() == null || user.getEmail().isBlank()
+                || user.getPassword() == null || user.getPassword().isBlank()
+                || user.getUsername() == null || user.getUsername().isBlank()
+                || user.getTypeAccount() == null
+                || !Set.of("patiente", "chercheure").contains(user.getTypeAccount())) {
+            return ResponseEntity.badRequest().body("Invalid registration data.");
+        }
+
         MyAppUser existingAppUser = myAppUserRepository.findByEmail(user.getEmail());
 
         if (existingAppUser != null) {
@@ -47,7 +56,7 @@ public class RegistrationController {
         myAppUserRepository.save(user);
         // Send verification email
         emailService.sendVerificationEmail(user.getEmail(), verificationToken);
-        return new ResponseEntity<>("Registration successful. Check your email for verification.",HttpStatus.OK);
+        return new ResponseEntity<>("Registration successful. Check your email for verification.",HttpStatus.CREATED);
 
     }
 
