@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class MyAppUser {
@@ -17,6 +18,9 @@ public class MyAppUser {
     private String password;
     private String verificationToken;
     private boolean isVerified;
+
+    @Column(name = "type_account", nullable = false)
+    private String typeAccount = "patiente";
 
     @Column(name ="reset_token")
     private String resetToken;
@@ -68,6 +72,16 @@ public class MyAppUser {
         this.password = password;
     }
 
+    @JsonProperty("type_account")
+    public String getTypeAccount() {
+        return typeAccount;
+    }
+
+    @JsonProperty("type_account")
+    public void setTypeAccount(String typeAccount) {
+        this.typeAccount = typeAccount;
+    }
+
     public String getResetToken() {
         return resetToken;
     }
@@ -75,5 +89,5 @@ public class MyAppUser {
     public void setResetToken(String resetToken) {
         this.resetToken = resetToken;
     }
-    
+
 }

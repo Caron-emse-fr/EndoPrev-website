@@ -22,9 +22,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-    
+
     private final MyAppUserService appUserService;
-    
+
     @Bean
     public UserDetailsService userDetailsService() {
         return appUserService;
@@ -53,11 +53,18 @@ public class SecurityConfig {
                             httpform
                                 .failureHandler(authenticationFailureHandler());
                             httpform
-                                .defaultSuccessUrl("/index", true);
+                            .defaultSuccessUrl("/index.html", true);
                         })
 
                     .authorizeHttpRequests(registry -> {
-                        registry.requestMatchers("/req/**","/css/**","/js/**").permitAll();
+                        registry.requestMatchers(
+                                "/", "/index", "/index.html", "/login.html", "/signup.html",
+                                "/forgot-password.html", "/reset-password.html",
+                                "/patientes.html", "/chercheures.html", "/associations.html",
+                                "/temoignages.html", "/qui-sommes-nous.html", "/admin.html",
+                                "/style.css", "/script.js", "/css/**", "/js/**", "/img/**",
+                                "/req/**", "/api/signup").permitAll();
+                        registry.requestMatchers("/compte.html", "/api/me").authenticated();
                         registry.anyRequest().authenticated();
                     })
                     .build();

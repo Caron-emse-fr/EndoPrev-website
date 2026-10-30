@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Qui sommes-nous — EndoPrév</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="icon" type="image/png" href="img/logo.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <img class="logo-img" src="img/logo.png" alt="EndoPrév"/>
+      <div class="logo-texts">
+        <span class="logo-text"><span class="logo-endo">Endo</span><span class="logo-prev">Prév</span></span>
+        <span class="logo-tagline">— Prévenir l'Endométriose —</span>
+      </div>
+    </a>
+    <nav class="main-nav">
+      <a class="main-tab" href="patientes.html" style="text-decoration:none">🌸 Patientes</a>
+      <a class="main-tab" href="chercheures.html" style="text-decoration:none">🔬 Chercheur·es</a>
+      <a class="main-tab" href="associations.html" style="text-decoration:none">🤝 Associations</a>
+      <a class="main-tab" href="temoignages.html" style="text-decoration:none">💬 Témoignages</a>
+      <a class="main-tab" href="qui-sommes-nous.html" style="text-decoration:none">👥 Qui sommes-nous</a>
+    </nav>
+    <div class="header-right">
+      <a class="login-btn" href="login.html" style="text-decoration:none">👤 Connexion</a>
+    </div>
+  </div>
+</header>
+
+<main class="endo-root">
+  <section class="section content-area visible" id="section-quisommesnous">
+    <div class="info-banner"><span class="info-banner-icon">👥</span><div class="info-banner-text"><strong>Notre équipe</strong>Quatre étudiantes unies par une même conviction : l'endométriose mérite d'être mieux connue, mieux diagnostiquée, mieux accompagnée.</div></div>
+    <p class="section-title">L'équipe EndoPrév</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <img src="img/aziliz.jpg" alt="Aziliz" class="team-photo"/>
+        <h4 class="team-name">Aziliz</h4>
+        <p class="team-role">Co-fondatrice · Porteuse du projet Price</p>
+        <p class="team-bio">Étudiante en double diplôme médecine-ingénierie à l'École des Mines, j'ai souhaité allier ses deux formations pour créer des outils concrets au service des femmes atteintes d'endométriose.</p>
+      </div>
+      <div class="team-card">
+        <img src="img/hanae.png" alt="Hanaé" class="team-photo"/>
+        <h4 class="team-name">Hanaé</h4>
+        <p class="team-role">Co-fondatrice · Porteuse du projet Price</p>
+        <p class="team-bio">Passionnée par l'intersection entre médecine et ingénierie, je poursuis un double diplôme à l'École des Mines avec la conviction que l'innovation technologique peut transformer le parcours des patientes.</p>
+      </div>
+      <div class="team-card">
+        <img src="img/moira.jpg" alt="Moira" class="team-photo"/>
+        <h4 class="team-name">Moira</h4>
+        <p class="team-role">Co-fondatrice</p>
+        <p class="team-bio">Étudiante ingénieure évoluant dans un milieu majoritairement masculin, je me suis engagée dans EndoPrév pour que les femmes aient enfin une place centrale dans la recherche qui les concerne.</p>
+      </div>
+      <div class="team-card">
+        <img src="img/lucile.png" alt="Lucile" class="team-photo"/>
+        <h4 class="team-name">Lucile</h4>
+        <p class="team-role">Co-fondatrice</p>
+        <p class="team-bio">Co-présidente de l'association WoMines à l'École des Mines de Saint-Etienne, j'agis au quotidien pour la place des femmes dans l'ingénierie, c'est tout naturellement que j'ai rejoins EndoPrév pour porter cette conviction plus loin.</p>
+      </div>
+    </div>
+    <p class="section-title">Notre mission</p>
+    <div class="team-mission">
+      <div class="team-mission-inner">
+        <div class="team-mission-text">
+          <p>EndoPrév est née d'un constat simple : l'endométriose touche 1 femme sur 10, mais le diagnostic prend en moyenne 7 ans. C'est bien trop long.</p>
+          <p>Nous sommes quatre étudiantes convaincues que l'information, la recherche et la solidarité peuvent changer cela. Notre plateforme connecte les patientes aux études cliniques, aux spécialistes et aux associations pour réduire l'errance médicale et accélérer la recherche.</p>
+          <p>Parce que chaque jour compte. Parce que chaque femme mérite d'être écoutée.</p>
+        </div>
+        <img src="img/mines.png" alt="École des Mines" class="team-mines-logo"/>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MODAL CONTACT SPÉCIALISTE -->
+<div class="modal-overlay" id="modal-contact" style="display:none" onclick="closeIf(event,'modal-contact')">
+  <div class="modal">
+    <div class="modal-header"><div><div class="modal-title" id="mc-title">Contacter un spécialiste</div><div class="modal-subtitle" id="mc-sub"></div></div><button class="modal-close" onclick="closeModal('modal-contact')">✕</button></div>
+    <div class="form-row"><label class="form-label">Votre prénom & nom *</label><input class="form-input" id="mc-nom" type="text" placeholder="Marie Dupont"/></div>
+    <div class="form-row"><label class="form-label">Votre email *</label><input class="form-input" id="mc-email" type="email" placeholder="marie.dupont@email.fr"/></div>
+    <div class="form-row"><label class="form-label">Votre téléphone</label><input class="form-input" id="mc-tel" type="tel" placeholder="06 XX XX XX XX"/></div>
+    <div class="form-row"><label class="form-label">Motif de la demande</label><select class="form-select" id="mc-motif"><option>Première consultation</option><option>Avis spécialisé / second avis</option><option>Suivi post-opératoire</option><option>Douleurs chroniques</option><option>Projet de grossesse</option><option>Autre</option></select></div>
+    <div class="form-row"><label class="form-label">Message (facultatif)</label><textarea class="form-textarea" id="mc-msg" style="min-height:70px" placeholder="Décrivez brièvement votre situation…"></textarea></div>
+    <button class="submit-btn" onclick="envoyerContact()" style="width:100%">✉️ Envoyer la demande</button>
+  </div>
+</div>
+
+<!-- MODAL PARTICIPER -->
+<div class="modal-overlay" id="modal-part" style="display:none" onclick="closeIf(event,'modal-part')">
+  <div class="modal">
+    <div class="modal-header"><div><div class="modal-title" id="mp-title">Participer à une étude</div><div class="modal-subtitle" id="mp-sub"></div></div><button class="modal-close" onclick="closeModal('modal-part')">✕</button></div>
+    <div class="info-banner" style="margin-bottom:1rem"><span class="info-banner-icon">💶</span><div class="info-banner-text"><strong>Dédommagement financier</strong><span id="mp-dedommagement"></span></div></div>
+    <div class="form-row"><label class="form-label">Votre prénom & nom *</label><input class="form-input" id="mp-nom" type="text" placeholder="Marie Dupont"/></div>
+    <div class="form-row"><label class="form-label">Votre email *</label><input class="form-input" id="mp-email" type="email" placeholder="marie@email.fr"/></div>
+    <div class="form-row"><label class="form-label">Votre date de naissance *</label><input class="form-input" id="mp-ddn" type="date"/></div>
+    <div class="form-row"><label class="form-label">Diagnostic confirmé d'endométriose ? *</label><select class="form-select" id="mp-diag"><option>Oui, diagnostic confirmé</option><option>Diagnostic en cours</option><option>Non diagnostiquée mais symptomatique</option><option>Non</option></select></div>
+    <div class="form-row"><label class="form-label">Votre ville / département</label><input class="form-input" id="mp-ville" type="text" placeholder="Ex: Lyon, 69"/></div>
+    <p style="font-size:12px;color:var(--text-muted);line-height:1.55;margin-bottom:12px">🔒 Données anonymisées et protégées (RGPD). Participation volontaire, retrait possible à tout moment.</p>
+    <button class="submit-btn" onclick="envoyerPart()" style="width:100%">✅ Envoyer ma candidature</button>
+  </div>
+</div>
+
+<!-- MODAL INFO -->
+<div class="modal-overlay" id="modal-info" style="display:none" onclick="closeIf(event,'modal-info')">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header"><div class="modal-title" id="info-title"></div><button class="modal-close" onclick="closeModal('modal-info')">✕</button></div>
+    <div id="info-body" style="font-size:13.5px;color:var(--text-secondary);line-height:1.7"></div>
+  </div>
+</div>
+
+<!-- MODAL ADMIN -->
+<div class="modal-overlay" id="modal-admin" style="display:none" onclick="closeIf(event,'modal-admin')">
+  <div class="modal modal-wide">
+    <div class="modal-header"><div><div class="modal-title">⚙️ Administration Endo</div><div class="modal-subtitle">Gérez les annonces, associations et candidatures</div></div><button class="modal-close" onclick="closeModal('modal-admin')">✕</button></div>
+    <div id="admin-login">
+      <div class="admin-section">
+        <div class="admin-login-wrap">
+          <p style="font-size:13px;color:#ffb3c6;text-align:center">Accès réservé à l'équipe Endo.</p>
+          <input type="password" id="admin-pwd" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkPwd()"/>
+          <button class="admin-login-btn" onclick="checkPwd()">Accéder →</button>
+          <p class="admin-error" id="admin-err">Mot de passe incorrect.</p>
+        </div>
+      </div>
+    </div>
+    <div id="admin-dash" style="display:none">
+      <div class="admin-section">
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="showAdminTab('ann')">📢 Annonces (<span id="adm-ann-n">0</span>)</button>
+          <button class="admin-tab" onclick="showAdminTab('asso')">🤝 Associations (<span id="adm-asso-n">0</span>)</button>
+          <button class="admin-tab" onclick="showAdminTab('cand')">👥 Candidatures (<span id="adm-cand-n">0</span>)</button>
+        </div>
+        <div id="adm-ann"><h3>📢 Annonces publiées via le formulaire</h3><div id="adm-ann-body"></div></div>
+        <div id="adm-asso" style="display:none"><h3>🤝 Demandes d'associations</h3><div id="adm-asso-body"></div></div>
+        <div id="adm-cand" style="display:none"><h3>👥 Candidatures aux études</h3><div id="adm-cand-body"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast hidden" id="toast"><span id="toast-msg"></span></div>
+
+<script src="script.js"></script>
+</body>
+</html>
