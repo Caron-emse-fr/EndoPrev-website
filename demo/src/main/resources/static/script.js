@@ -29,7 +29,7 @@ async function refreshAuthenticationState() {
   const authButton = document.querySelector('.login-btn, .nav-login-btn');
   if (authButton) {
     authButton.textContent = authenticated ? '👤 Compte' : '👤 Connexion';
-    authButton.href = authenticated ? 'compte.html' : 'login.html';
+    authButton.href = authenticated ? '/compte' : 'login.html';
   }
 
   if (window.location.pathname.endsWith('/compte.html') && !authenticated) {
@@ -39,9 +39,11 @@ async function refreshAuthenticationState() {
 
   if (authenticated) {
     document.body.dataset.authenticated = 'true';
-    const profileInfo = document.getElementById('profile-info');
-    if (profileInfo && profile) {
-      profileInfo.textContent = `${profile.username} · ${profile.email} · ${profile.type_account}`;
+    if (profile) {
+      const accountName = document.getElementById('account-name');
+      const accountUsername = document.getElementById('account-username');
+      if (accountName) accountName.textContent = profile.username;
+      if (accountUsername) accountUsername.value = profile.username;
     }
   }
 }
