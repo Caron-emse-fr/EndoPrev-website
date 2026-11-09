@@ -1,4 +1,3 @@
-```markdown
 # EndoPrev - Spring Boot Demo
 
 This repository contains the demo application for **EndoPrev**, a platform designed to connect endometriosis patients with researchers in the field.
@@ -131,5 +130,3 @@ All dependencies, plugins, and project metadata are declared inside `demo/build.
 ## Author
 
 Developed and maintained by **Caron**.
-
-```
