@@ -3,6 +3,8 @@
 
 This repository contains the demo application for **EndoPrev**, a platform designed to connect endometriosis patients with researchers in the field.
 
+The Spring Boot application is located in the [`demo/`](demo/) directory. The commands below are intended to be run from the repository root.
+
 ---
 
 ## Technologies & Built With
@@ -24,13 +26,13 @@ Compile and build the application:
 
 **Windows:**
 ```cmd
-gradlew.bat clean build
+demo\gradlew.bat clean build
 ```
 
 **Linux / macOS:**
 
 ```bash
-./gradlew clean build
+./demo/gradlew clean build
 ```
 
 ## Execute Tests
@@ -40,13 +42,13 @@ Run the test suite:
 **Windows:**
 
 ```cmd
-gradlew.bat test
+demo\gradlew.bat test
 ```
 
 **Linux / macOS:**
 
 ```bash
-./gradlew test
+./demo/gradlew test
 ```
 
 ## Launch the Application
@@ -56,13 +58,13 @@ Start the embedded Spring Boot server:
 **Windows:**
 
 ```cmd
-gradlew.bat bootRun
+demo\gradlew.bat bootRun
 ```
 
 **Linux / macOS:**
 
 ```bash
-./gradlew bootRun
+./demo/gradlew bootRun
 ```
 
 The application will be available at: [http://localhost:8080](http://localhost:8080)
@@ -74,42 +76,42 @@ Generate the executable JAR file:
 **Windows:**
 
 ```cmd
-gradlew.bat bootJar
+demo\gradlew.bat bootJar
 ```
 
 **Linux / macOS:**
 
 ```bash
-./gradlew bootJar
+./demo/gradlew bootJar
 ```
 
-The executable JAR will be located in `build/libs/`.
+The executable JAR will be located in `demo/build/libs/`.
 
 To execute it:
 
 ```bash
-java -jar build/libs/demo-0.1.1.jar
+java -jar demo/build/libs/demo-0.1.1.jar
 ```
 
 ## Verify the Build
 
 After running the build, the generated files can be found in:
 
-- `build/libs/` for JAR files
-- `build/reports/tests/test/index.html` for the test report
+- `demo/build/libs/` for JAR files
+- `demo/build/reports/tests/test/index.html` for the test report
 
 ## Project Structure
 
-- `build.gradle.kts`: Gradle build configuration
-- `gradle/`: Gradle Wrapper configuration
-- `src/main/java/`: Java source code
-- `src/main/resources/templates/`: Thymeleaf HTML templates
-- `src/main/resources/static/`: CSS, JavaScript and images
-- `src/test/`: automated tests
+- `demo/build.gradle.kts`: Gradle build configuration
+- `demo/gradle/`: Gradle Wrapper configuration
+- `demo/src/main/java/`: Java source code
+- `demo/src/main/resources/templates/`: Thymeleaf HTML templates
+- `demo/src/main/resources/static/`: CSS, JavaScript and images
+- `demo/src/test/`: automated tests
 
 ## Configuration & Setup
 
-Application properties can be configured in `src/main/resources/application.properties`.
+Application properties can be configured in `demo/src/main/resources/application.properties`.
 
 The application requires environment variables for mail server authentication, as well as PostgreSQL database configuration.
 | Variable | Description | Example |
@@ -124,7 +126,7 @@ If you use another database system you must change the variables that start with
 
 ## Dependency Management
 
-All dependencies, plugins, and project metadata are declared inside `build.gradle.kts`.
+All dependencies, plugins, and project metadata are declared inside `demo/build.gradle.kts`.
 
 ## Author
 
